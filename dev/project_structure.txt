@@ -1,0 +1,45 @@
+remote_play
+├── gui
+│   ├── assets
+│   │   ├── images
+│   │   └── icons
+│   ├── components
+│   │   └── widgets.py
+│   ├── main.py
+│   └── utils.py
+├── core
+│   ├── include
+│   │   └── core.h
+│   ├── src
+│   │   ├── main.cpp
+│   │   └── other_module.cpp
+│   └── CMakeLists.txt
+├── python
+│   ├── utils.py
+│   └── other_module.py
+├── dev
+│   ├── dist
+│   │   ├── bin
+│   │   └── lib
+│   ├── cmake_build
+│   │   ├── bin
+│   |   ├── CMakeFiles
+│   │   |── lib
+│   │   ├── cmake_install.cmake
+│   │   ├── CMakeCache.txt
+│   │   └── Makefile
+│   ├── pyinstaller_build
+│   │   ├── build
+│   │   ├── dist
+│   │   └── remote_play.spec
+│   ├── scripts
+│   │   ├── cmake_build.bat
+│   │   ├── pyinstaller_build.bat
+│   │   └── pyinstaller_setup.bat
+│   └── project_structure.txt
+├── tests
+│   ├── test_gui.py
+│   ├── test_core.cpp
+│   └── test_python.py
+├── README.md
+└── LICENSE

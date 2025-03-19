@@ -1,0 +1,21 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.venv/
+
+# C++
+*.o
+
+# VS Code
+.vscode/
+
+# Distribution / packaging
+dist/
+cmake_build/
+pyinstaller_build/
+*.spec
+Compiler.txt
+*.env
+*.exe

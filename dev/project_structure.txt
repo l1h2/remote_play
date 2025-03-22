@@ -9,10 +9,11 @@ remote_play
 │   └── utils.py
 ├── core
 │   ├── include
-│   │   └── core.h
+│   │   └── core.hpp
 │   ├── src
 │   │   ├── main.cpp
 │   │   └── other_module.cpp
+│   ├── stun_client
 │   └── CMakeLists.txt
 ├── python
 │   ├── utils.py
@@ -33,13 +34,14 @@ remote_play
 │   │   ├── dist
 │   │   └── remote_play.spec
 │   ├── scripts
-│   │   ├── cmake_build.bat
-│   │   ├── pyinstaller_build.bat
-│   │   └── pyinstaller_setup.bat
+│   │   ├── builds
+│   │   ├── package.bat
+│   │   └── run.bat
 │   └── project_structure.txt
 ├── tests
 │   ├── test_gui.py
 │   ├── test_core.cpp
 │   └── test_python.py
+├── .gitignore
 ├── README.md
 └── LICENSE

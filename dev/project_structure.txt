@@ -35,8 +35,8 @@ remote_play
 │   │   └── remote_play.spec
 │   ├── scripts
 │   │   ├── builds
-│   │   ├── package.bat
-│   │   └── run.bat
+│   │   ├── package.py
+│   │   └── run.py
 │   └── project_structure.txt
 ├── tests
 │   ├── test_gui.py

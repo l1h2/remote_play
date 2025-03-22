@@ -1,6 +1,7 @@
 import sys
 
 from builds import cmake, pyinstaller
+from run import run_app
 from utils import FLAGS, PATHS, check_path, choice, copy_dir
 
 
@@ -31,7 +32,7 @@ def copy_dist() -> None:
 def run_exe(no_confirm: bool) -> None:
     prompt = "Do you want to run the executable?"
     if choice(prompt, no_confirm):
-        pass
+        run_app()
     else:
         print("Closing the script.")
 

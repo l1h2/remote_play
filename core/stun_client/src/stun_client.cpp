@@ -1,6 +1,5 @@
 #include "stun_client.hpp"
 
-#include <chrono>
 #include <iostream>
 #include <random>
 
@@ -8,44 +7,43 @@
 
 using namespace StunConstants;
 
-StunClient::StunClient(boost::asio::io_context& io_context, uint16_t local_port)
-    : io_context_(io_context), local_port_(local_port) {}
+StunClient::StunClient(boost::asio::io_context& io_context,
+                       const uint16_t local_port, const std::string& server,
+                       const uint16_t server_port)
+    : io_context_(io_context),
+      stun_socket_(io_context, udp::endpoint(udp::v4(), local_port)),
+      stun_server_(*udp::resolver(io_context)
+                        .resolve(udp::v4(), server, std::to_string(server_port))
+                        .begin()) {}
+
+StunClient::~StunClient() { stun_socket_.close(); }
 
 void StunClient::periodic_query_stun_server(std::function<void()> callback,
-                                            const uint8_t interval,
-                                            const std::string& server_name,
-                                            const uint16_t server_port) {
-    query_stun_server(server_name, server_port);
+                                            const uint8_t interval) {
+    query_stun_server();
     callback();
 
     auto timer = std::make_shared<boost::asio::steady_timer>(
         io_context_, std::chrono::seconds(interval));
-    timer->async_wait([timer, this, server_name, server_port, interval,
-                       callback](const boost::system::error_code& ec) {
-        if (!ec) {
-            periodic_query_stun_server(callback, interval, server_name,
-                                       server_port);
-        }
-    });
+    timer->async_wait(
+        [timer, this, interval, callback](const boost::system::error_code& ec) {
+            if (!ec) {
+                periodic_query_stun_server(callback, interval);
+            }
+        });
 }
 
-void StunClient::query_stun_server(const std::string& server_name,
-                                   const uint16_t server_port) {
-    udp::endpoint receiver_endpoint =
-        resolve_endpoint(server_name, server_port);
+void StunClient::query_stun_server() {
     generate_stun_request();
 
-    udp::socket stun_socket(io_context_, udp::endpoint(udp::v4(), local_port_));
-    stun_socket.send_to(boost::asio::buffer(send_buf_), receiver_endpoint);
+    stun_socket_.send_to(boost::asio::buffer(send_buf_), stun_server_);
 
     udp::endpoint sender_endpoint;
-    size_t bytes_recvd = stun_socket.receive_from(
+    size_t bytes_recvd = stun_socket_.receive_from(
         boost::asio::buffer(recv_buf_), sender_endpoint);
 
-    stun_socket.close();
-
-    if (bytes_recvd <= 0) {
-        std::cerr << "Failed to receive STUN response" << std::endl;
+    if (sender_endpoint != stun_server_) {
+        std::cerr << "Received response from unknown endpoint" << std::endl;
         return;
     }
 
@@ -54,14 +52,6 @@ void StunClient::query_stun_server(const std::string& server_name,
 
 void StunClient::print_public_socket() const {
     std::cout << public_ip_ << ":" << public_port_ << std::endl;
-}
-
-udp::endpoint StunClient::resolve_endpoint(const std::string& server,
-                                           uint16_t port) {
-    udp::resolver resolver(io_context_);
-    udp::resolver::results_type endpoints =
-        resolver.resolve(udp::v4(), server, std::to_string(port));
-    return *endpoints.begin();
 }
 
 void StunClient::generate_stun_request() {
@@ -98,10 +88,16 @@ void StunClient::handle_stun_response(const std::size_t bytes_recvd) {
     const uint32_t xor_ip = (recv_buf_[28] << 24) | (recv_buf_[29] << 16) |
                             (recv_buf_[30] << 8) | recv_buf_[31];
 
-    public_port_ = xor_port ^ (MAGIC_COOKIE >> 16);
+    const uint16_t port = xor_port ^ (MAGIC_COOKIE >> 16);
+    if (!validator.validate_port(port)) return;
+
     const uint32_t ip = xor_ip ^ MAGIC_COOKIE;
-    public_ip_ = std::to_string((ip >> 24) & 0xFF) + "." +
-                 std::to_string((ip >> 16) & 0xFF) + "." +
-                 std::to_string((ip >> 8) & 0xFF) + "." +
-                 std::to_string(ip & 0xFF);
+    const std::string ip_str = std::to_string((ip >> 24) & 0xFF) + "." +
+                               std::to_string((ip >> 16) & 0xFF) + "." +
+                               std::to_string((ip >> 8) & 0xFF) + "." +
+                               std::to_string(ip & 0xFF);
+    if (!validator.validate_ip(ip_str)) return;
+
+    public_ip_ = ip_str;
+    public_port_ = port;
 }

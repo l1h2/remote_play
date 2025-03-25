@@ -1,8 +1,7 @@
 #include <boost/asio.hpp>
-#include <cstdint>
 #include <iostream>
-#include <stdexcept>
 
+#include "common.hpp"
 #include "stun_client.hpp"
 
 int main(int argc, char* argv[]) {
@@ -12,11 +11,10 @@ int main(int argc, char* argv[]) {
                                         std::string(argv[0]) + " <local_port>");
         }
 
-        const int port = std::stoi(argv[1]);
-        if (port < 0 || port > 65535) {
-            throw std::out_of_range("Port number must be between 0 and 65535");
+        if (!Common::validate_port(argv[1])) {
+            throw std::invalid_argument("Invalid port number");
         }
-        const uint16_t local_port = static_cast<uint16_t>(port);
+        const uint16_t local_port = static_cast<uint16_t>(std::stoi(argv[1]));
 
         boost::asio::io_context io_context;
         StunClient stun_client(io_context, local_port);

@@ -1,9 +1,8 @@
-set(EXECUTABLE_NAME stun_client)
+set(EXECUTABLE_NAME udp_connection)
 
 set(SOURCES
     src/main.cpp
-    src/stun_client.cpp
-    src/stun_response_validator.cpp
+    src/udp_connection.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})

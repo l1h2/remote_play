@@ -2,6 +2,8 @@
 #define STUN_RESPONSE_VALIDATOR_HPP
 
 #include <array>
+#include <cstdint>
+#include <string>
 
 /**
  * @class StunResponseValidator
@@ -22,10 +24,25 @@ class StunResponseValidator {
      * @brief Validates a STUN response
      *
      * @param bytes_recvd Number of bytes received
-     * @return true if the response is valid
-     * @return false if the response is invalid
+     * @return true if the response is valid, false otherwise
      */
     bool validate_stun_response(const std::size_t bytes_recvd) const;
+
+    /**
+     * @brief Validates a port number
+     *
+     * @param port Port number to validate
+     * @return true if the port number is valid, false otherwise
+     */
+    bool validate_port(const uint16_t port) const;
+
+    /**
+     * @brief Validates an IP address
+     *
+     * @param ip IP address to validate
+     * @return true if the IP address is valid, false otherwise
+     */
+    bool validate_ip(const std::string& ip) const;
 
    private:
     bool validate_response_length(const std::size_t bytes_recvd) const;

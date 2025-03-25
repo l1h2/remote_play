@@ -1,9 +1,7 @@
 #ifndef STUN_CLIENT_HPP
 #define STUN_CLIENT_HPP
 
-#include <array>
 #include <boost/asio.hpp>
-#include <cstdint>
 
 #include "stun_constants.hpp"
 
@@ -20,31 +18,31 @@ class StunClient {
      *
      * @param io_context Boost ASIO context
      * @param local_port Local port to bind the UDP socket
+     * @param server STUN server name (default: stun.l.google.com)
+     * @param server_port STUN server port (default: 19302)
      */
-    StunClient(boost::asio::io_context& io_context, uint16_t local_port);
+    StunClient(boost::asio::io_context& io_context, const uint16_t local_port,
+               const std::string& server = StunServerInfo::GOOGLE_STUN_SERVER,
+               const uint16_t server_port = StunServerInfo::GOOGLE_STUN_PORT);
+
+    /**
+     * @brief Destroy the StunClient object
+     */
+    ~StunClient();
 
     /**
      * @brief Periodically query a STUN server
      *
      * @param callback Function to call after each query
      * @param interval Interval in seconds between queries (default: 30)
-     * @param server_name STUN server name (default: stun.l.google.com)
-     * @param server_port STUN server port (default: 19302)
      */
-    void periodic_query_stun_server(
-        std::function<void()> callback, const uint8_t interval = 30,
-        const std::string& server_name = StunServerInfo::GOOGLE_STUN_SERVER,
-        const uint16_t server_port = StunServerInfo::GOOGLE_STUN_PORT);
+    void periodic_query_stun_server(std::function<void()> callback,
+                                    const uint8_t interval = 30);
 
     /**
      * @brief Query a STUN server
-     *
-     * @param server_name STUN server name (default: stun.l.google.com)
-     * @param server_port STUN server port (default: 19302)
      */
-    void query_stun_server(
-        const std::string& server_name = StunServerInfo::GOOGLE_STUN_SERVER,
-        const uint16_t server_port = StunServerInfo::GOOGLE_STUN_PORT);
+    void query_stun_server();
 
     /**
      * @brief Get the public IP
@@ -66,14 +64,13 @@ class StunClient {
     void print_public_socket() const;
 
    private:
-    udp::endpoint resolve_endpoint(const std::string& server,
-                                   const uint16_t port);
     void generate_stun_request();
     void generate_transaction_id();
     void handle_stun_response(const std::size_t bytes_recvd);
 
     boost::asio::io_context& io_context_;
-    uint16_t local_port_;
+    udp::socket stun_socket_;
+    udp::endpoint stun_server_;
     std::array<unsigned char, 20> send_buf_;
     std::array<unsigned char, 1024> recv_buf_;
     std::array<unsigned char, 12> transaction_id_;

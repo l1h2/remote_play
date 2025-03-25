@@ -9,6 +9,7 @@
  * @brief Default STUN server information
  */
 namespace StunServerInfo {
+
 /**
  * @brief Default STUN server provided by Google. (stun.l.google.com)
  */
@@ -38,6 +39,7 @@ const uint32_t MAGIC_COOKIE = 0x2112A442;
 
 const uint16_t MAPPED_ADDRESS = 0x0001;
 const uint16_t XOR_MAPPED_ADDRESS = 0x0020;
+
 }  // namespace StunConstants
 
 #endif  // STUN_CONSTANTS_HPP

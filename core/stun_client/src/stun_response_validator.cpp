@@ -1,8 +1,8 @@
 #include "stun_response_validator.hpp"
 
-#include <cstdint>
 #include <iostream>
 
+#include "common.hpp"
 #include "stun_constants.hpp"
 
 using namespace StunConstants;
@@ -23,6 +23,22 @@ bool StunResponseValidator::validate_stun_response(
     if (!validate_attribute_length()) return false;
     if (!validate_address_family()) return false;
 
+    return true;
+}
+
+bool StunResponseValidator::validate_port(const uint16_t port) const {
+    if (!Common::validate_port(port)) {
+        std::cerr << "Invalid port" << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool StunResponseValidator::validate_ip(const std::string& ip) const {
+    if (!Common::validate_ip(ip)) {
+        std::cerr << "Invalid IP address" << std::endl;
+        return false;
+    }
     return true;
 }
 

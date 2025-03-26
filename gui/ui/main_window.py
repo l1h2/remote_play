@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
 
     def _set_window(self) -> None:
         self.setWindowTitle("Remote Play App")
-        self.resize(400, 200)
+        self.resize(600, 300)
 
     def _set_main_widget(self) -> None:
         self.main_widget = QWidget()

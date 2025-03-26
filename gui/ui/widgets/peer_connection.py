@@ -1,5 +1,5 @@
 from PyQt6.QtGui import QCloseEvent
-from PyQt6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QWidget
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QPushButton, QWidget
 
 from controllers import NetworkController
 from utils import Network
@@ -38,6 +38,7 @@ class PeerConnection(QWidget):
         Add widgets to the widget.
         """
         self._add_input()
+        self._add_button()
         self._add_label()
 
     def _add_input(self) -> None:
@@ -48,6 +49,19 @@ class PeerConnection(QWidget):
         self._input.setFixedWidth(200)
         self._input.setPlaceholderText("Enter IP:Port")
         self._input.returnPressed.connect(self._handle_input)
+
+    def _add_button(self) -> None:
+        """
+        Add the button to the widget.
+        """
+        self._button = QPushButton("Connect")
+        self._button.clicked.connect(self.test)
+
+    def test(self) -> None:
+        if not self.controller.udp_worker:
+            return
+
+        self.controller.udp_worker.send_message("stream_request")
 
     def _add_label(self) -> None:
         """
@@ -61,6 +75,7 @@ class PeerConnection(QWidget):
         """
         self._layout = QHBoxLayout(self)
         self._layout.addWidget(self._input)
+        self._layout.addWidget(self._button)
         self._layout.addWidget(self._label)
 
     def _handle_input(self) -> None:

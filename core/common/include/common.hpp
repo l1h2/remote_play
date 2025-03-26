@@ -4,6 +4,40 @@
 #include <string>
 
 /**
+ * @enum Messages
+ * @brief Enumerates the different types of messages that can be sent between
+ * peers.
+ */
+enum Messages {
+    PING = 1,
+    PONG = 2,
+    ACK = 3,
+    NACK = 4,
+    STREAM_REQUEST = 5,
+    ACK_STREAM_REQUEST = 6,
+    STREAM_ACCEPT = 7,
+    ACK_STREAM_ACCEPT = 8,
+    STREAM_REJECT = 9,
+    ACK_STREAM_REJECT = 10
+};
+
+/**
+ * @namespace InterprocessMessages
+ * @brief Contains the different types of messages that can be sent between
+ * processes.
+ */
+namespace InterprocessMessages {
+
+const std::string STREAM_REQUEST = "stream_request";
+const std::string ACK_STREAM_REQUEST = "ack_stream_request";
+const std::string STREAM_ACCEPT = "stream_accept";
+const std::string ACK_STREAM_ACCEPT = "ack_stream_accept";
+const std::string STREAM_REJECT = "stream_reject";
+const std::string ACK_STREAM_REJECT = "ack_stream_reject";
+
+};  // namespace InterprocessMessages
+
+/**
  * @namespace Common
  * @brief Contains utility functions for validating IP addresses, ports, and
  * socket strings.

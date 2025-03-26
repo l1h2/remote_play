@@ -59,6 +59,7 @@ class SubprocessNetWorker(QThread):
         self._process = subprocess.Popen(
             [self.exe_path, *self._args],
             stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,
             text=True,
             creationflags=subprocess.CREATE_NO_WINDOW,
         )
@@ -78,6 +79,19 @@ class SubprocessNetWorker(QThread):
 
         self.terminate_process()
 
+    def send_message(self, message: str) -> None:
+        """
+        Send a message to the subprocess' stdin.
+
+        Args:
+            message (str): The message to send.
+        """
+        if not self._process or not self._process.stdin:
+            return
+
+        self._process.stdin.write(f"{message}\n")
+        self._process.stdin.flush()
+
     def terminate_process(self) -> None:
         """
         Terminate the subprocess.
@@ -92,11 +106,7 @@ class SubprocessNetWorker(QThread):
 
         self._process.terminate()
         self._process.wait()
-
-        if not self._process.stdout:
-            return
-
-        self._process.stdout.close()
+        self._close_pipes()
         self._process = None
 
     def quit(self) -> None:
@@ -114,6 +124,19 @@ class SubprocessNetWorker(QThread):
             process_output (str): The output from the process.
         """
         raise NotImplementedError
+
+    def _close_pipes(self):
+        """
+        Close the pipes for the process.
+        """
+        if not self._process:
+            return
+
+        if self._process.stdout:
+            self._process.stdout.close()
+
+        if self._process.stdin:
+            self._process.stdin.close()
 
 
 class StunQueryWorker(SubprocessNetWorker):

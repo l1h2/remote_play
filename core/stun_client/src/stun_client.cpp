@@ -16,7 +16,9 @@ StunClient::StunClient(boost::asio::io_context& io_context,
                         .resolve(udp::v4(), server, std::to_string(server_port))
                         .begin()) {}
 
-StunClient::~StunClient() { stun_socket_.close(); }
+StunClient::~StunClient() {
+    if (stun_socket_.is_open()) stun_socket_.close();
+}
 
 void StunClient::periodic_query_stun_server(std::function<void()> callback,
                                             const uint8_t interval) {

@@ -18,3 +18,13 @@ class _SubprocessNames:
 class Subprocess:
     STUN_CLIENT: str = os.path.join(Paths.BIN, _SubprocessNames.STUN_CLIENT)
     UDP_CONNECTION: str = os.path.join(Paths.BIN, _SubprocessNames.UDP_CONNECTION)
+
+
+@dataclass(frozen=True)
+class InterprocessMessages:
+    STREAM_REQUEST = "stream_request"
+    ACK_STREAM_REQUEST = "ack_stream_request"
+    STREAM_ACCEPT = "stream_accept"
+    ACK_STREAM_ACCEPT = "ack_stream_accept"
+    STREAM_REJECT = "stream_reject"
+    ACK_STREAM_REJECT = "ack_stream_reject"

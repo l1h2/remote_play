@@ -75,16 +75,13 @@ void UdpPeer::handle_receive(const boost::system::error_code& ec,
 }
 
 void UdpPeer::handle_input(const std::string& input) {
-    if (input == InterprocessMessages::STREAM_REQUEST) {
-        message_ = STREAM_REQUEST;
-    } else if (input == InterprocessMessages::STREAM_ACCEPT) {
-        message_ = STREAM_ACCEPT;
-    } else if (input == InterprocessMessages::STREAM_REJECT) {
-        message_ = STREAM_REJECT;
-    } else {
+    auto it = SIGNAL_TO_UDP_MAP.find(input);
+    if (it == SIGNAL_TO_UDP_MAP.end()) {
         std::cerr << "Unknown command: " << input << std::endl;
         return;
     }
+
+    message_ = it->second;
 }
 
 bool UdpPeer::validate_message(const int message,
@@ -113,25 +110,14 @@ void UdpPeer::handle_response(const int message,
             handle_pong();
             break;
         case STREAM_REQUEST:
-            handle_process_signal(InterprocessMessages::STREAM_REQUEST,
-                                  ACK_STREAM_REQUEST, remote_endpoint);
+        case STREAM_ACCEPT:
+        case STREAM_REJECT:
+            handle_process_signal(message, remote_endpoint);
             break;
         case ACK_STREAM_REQUEST:
-            reset_ping(InterprocessMessages::ACK_STREAM_REQUEST);
-            break;
-        case STREAM_ACCEPT:
-            handle_process_signal(InterprocessMessages::STREAM_ACCEPT,
-                                  ACK_STREAM_ACCEPT, remote_endpoint);
-            break;
         case ACK_STREAM_ACCEPT:
-            reset_ping(InterprocessMessages::ACK_STREAM_ACCEPT);
-            break;
-        case STREAM_REJECT:
-            handle_process_signal(InterprocessMessages::STREAM_REJECT,
-                                  ACK_STREAM_REJECT, remote_endpoint);
-            break;
         case ACK_STREAM_REJECT:
-            reset_ping(InterprocessMessages::ACK_STREAM_REJECT);
+            reset_ping(message);
             break;
         default:
             std::cerr << "Unknown message: " << message << std::endl;
@@ -145,15 +131,15 @@ void UdpPeer::handle_pong() {
     std::cout << elapsed.count() << std::endl;
 }
 
-void UdpPeer::handle_process_signal(const std::string& signal, const int ack,
+void UdpPeer::handle_process_signal(int signal,
                                     const udp::endpoint& remote_endpoint) {
-    send_message(ack, remote_endpoint);
-    std::cout << signal << std::endl;
+    send_message(ACK_MAP.at(signal), remote_endpoint);
+    std::cout << UDP_TO_SIGNAL_MAP.at(signal) << std::endl;
 }
 
-void UdpPeer::reset_ping(const std::string& signal) {
+void UdpPeer::reset_ping(const int signal) {
     message_ = PING;
-    std::cout << signal << std::endl;
+    std::cout << UDP_TO_SIGNAL_MAP.at(signal) << std::endl;
 };
 
 void UdpPeer::send_message(const int message, const udp::endpoint& endpoint) {

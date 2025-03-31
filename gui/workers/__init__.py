@@ -1,3 +1,15 @@
-from .subprocess_workers import StunQueryWorker, SubprocessNetWorker, UdpPeerWorker
+from .subprocess_workers import (
+    StunQueryWorker,
+    SubprocessNetWorker,
+    UdpClientWorker,
+    UdpPeerWorker,
+    UdpServerWorker,
+)
 
-__all__ = ["StunQueryWorker", "SubprocessNetWorker", "UdpPeerWorker"]
+__all__ = [
+    "StunQueryWorker",
+    "SubprocessNetWorker",
+    "UdpClientWorker",
+    "UdpPeerWorker",
+    "UdpServerWorker",
+]

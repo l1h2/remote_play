@@ -1,13 +1,13 @@
 import subprocess
 
-from utils import PATHS, check_path
+from utils import Paths, check_path
 
 
 def run_app() -> None:
-    check_path(PATHS.app_executable, "Please run the packaging script first.")
+    check_path(Paths.app_executable, "Please run the packaging script first.")
 
-    print(f"Running the {PATHS.app_name} executable...")
-    subprocess.Popen([PATHS.app_executable])
+    print(f"Running the {Paths.app_name} executable...")
+    subprocess.Popen([Paths.app_executable])
 
 
 if __name__ == "__main__":

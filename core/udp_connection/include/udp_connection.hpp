@@ -29,9 +29,9 @@ class UdpPeer {
     void handle_response(const int message,
                          const udp::endpoint& remote_endpoint);
     void handle_pong();
-    void handle_process_signal(const std::string& signal, const int ack,
+    void handle_process_signal(int signal,
                                const udp::endpoint& remote_endpoint);
-    void reset_ping(const std::string& signal);
+    void reset_ping(const int signal);
     void send_message(const int message, const udp::endpoint& endpoint);
 
     udp::socket socket_;

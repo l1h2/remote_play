@@ -1,9 +1,7 @@
 import os
 import platform
-from dataclasses import dataclass
 
 
-@dataclass(frozen=True)
 class Paths:
     root_dir = os.path.abspath(
         os.path.join(os.path.dirname(__file__), "..", "..", "..")
@@ -31,10 +29,5 @@ class Paths:
     )
 
 
-@dataclass(frozen=True)
 class Flags:
     no_confirm = "-y"
-
-
-PATHS = Paths()
-FLAGS = Flags()

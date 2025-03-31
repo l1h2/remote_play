@@ -2,7 +2,8 @@ import sys
 
 from builds import cmake, pyinstaller
 from run import run_app
-from utils import FLAGS, PATHS, check_path, choice, copy_dir
+
+from utils import Flags, Paths, check_path, choice, copy_dir
 
 
 def run_cmake(no_confirm: bool) -> None:
@@ -23,9 +24,9 @@ def run_pyinstaller(no_confirm: bool) -> None:
 
 def copy_dist() -> None:
     check_path(
-        PATHS.pyinstaller_dist_dir, "Please run the PyInstaller build script first."
+        Paths.pyinstaller_dist_dir, "Please run the PyInstaller build script first."
     )
-    copy_dir(PATHS.pyinstaller_dist_dir, PATHS.dist_dir)
+    copy_dir(Paths.pyinstaller_dist_dir, Paths.dist_dir)
     print("Packaging completed successfully.")
 
 
@@ -38,7 +39,7 @@ def run_exe(no_confirm: bool) -> None:
 
 
 def package_app() -> None:
-    no_confirm = FLAGS.no_confirm in sys.argv
+    no_confirm = Flags.no_confirm in sys.argv
 
     run_cmake(no_confirm)
     run_pyinstaller(no_confirm)

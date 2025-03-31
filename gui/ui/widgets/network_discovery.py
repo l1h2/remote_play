@@ -64,9 +64,9 @@ class NetworkDiscovery(QWidget):
         """
         Set the layout of the widget.
         """
-        self._layout = QHBoxLayout(self)
-        self._layout.addWidget(self._label)
-        self._layout.addWidget(self._copy_button)
+        network_layout = QHBoxLayout(self)
+        network_layout.addWidget(self._label)
+        network_layout.addWidget(self._copy_button)
 
     def _copy_to_clipboard(self) -> None:
         """

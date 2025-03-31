@@ -1,9 +1,9 @@
-from .constants import FLAGS, PATHS
+from .constants import Flags, Paths
 from .helpers import check_path, choice, clean_dir, copy_dir, run_command
 
 __all__ = [
-    "FLAGS",
-    "PATHS",
+    "Flags",
+    "Paths",
     "check_path",
     "choice",
     "clean_dir",

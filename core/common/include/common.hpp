@@ -1,6 +1,7 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#include <map>
 #include <string>
 
 /**
@@ -22,6 +23,16 @@ enum Messages {
 };
 
 /**
+ * @brief Maps the different types of messages to their corresponding ACKs.
+ */
+const std::map<int, int> ACK_MAP = {
+    {PING, PONG},
+    {STREAM_REQUEST, ACK_STREAM_REQUEST},
+    {STREAM_ACCEPT, ACK_STREAM_ACCEPT},
+    {STREAM_REJECT, ACK_STREAM_REJECT},
+};
+
+/**
  * @namespace InterprocessMessages
  * @brief Contains the different types of messages that can be sent between
  * processes.
@@ -36,6 +47,31 @@ const std::string STREAM_REJECT = "stream_reject";
 const std::string ACK_STREAM_REJECT = "ack_stream_reject";
 
 };  // namespace InterprocessMessages
+
+/**
+ * @brief Maps the different types of messages to their corresponding strings.
+ */
+const std::map<int, std::string> UDP_TO_SIGNAL_MAP = {
+    {STREAM_REQUEST, InterprocessMessages::STREAM_REQUEST},
+    {ACK_STREAM_REQUEST, InterprocessMessages::ACK_STREAM_REQUEST},
+    {STREAM_ACCEPT, InterprocessMessages::STREAM_ACCEPT},
+    {ACK_STREAM_ACCEPT, InterprocessMessages::ACK_STREAM_ACCEPT},
+    {STREAM_REJECT, InterprocessMessages::STREAM_REJECT},
+    {ACK_STREAM_REJECT, InterprocessMessages::ACK_STREAM_REJECT},
+};
+
+/**
+ * @brief Maps the different types of messages to their corresponding UDP
+ * signals.
+ */
+const std::map<std::string, int> SIGNAL_TO_UDP_MAP = {
+    {InterprocessMessages::STREAM_REQUEST, STREAM_REQUEST},
+    {InterprocessMessages::ACK_STREAM_REQUEST, ACK_STREAM_REQUEST},
+    {InterprocessMessages::STREAM_ACCEPT, STREAM_ACCEPT},
+    {InterprocessMessages::ACK_STREAM_ACCEPT, ACK_STREAM_ACCEPT},
+    {InterprocessMessages::STREAM_REJECT, STREAM_REJECT},
+    {InterprocessMessages::ACK_STREAM_REJECT, ACK_STREAM_REJECT},
+};
 
 /**
  * @namespace Common

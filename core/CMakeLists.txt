@@ -9,6 +9,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 include_directories(common/include)
 
+# Platform-specific settings
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows" OR CMAKE_SYSTEM_NAME STREQUAL "MSYS")
     if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
         set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mwindows")
@@ -22,6 +23,9 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(SOCKET_LIB "")
 endif()
 
+# Add subdirectories for each module
 add_subdirectory(common)
 add_subdirectory(stun_client)
 add_subdirectory(udp_connection)
+add_subdirectory(udp_server)
+add_subdirectory(udp_client)

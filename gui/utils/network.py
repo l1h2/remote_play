@@ -12,15 +12,16 @@ class Socket:
     - `port (int)`: The port of the socket
 
     #### Methods:
-    - `from_string(cls, socket_str: str) -> Socket`: Create a `Socket` object from a string.
+    - `validate_socket_string(socket_str: str) -> tuple[str, int] | None`: Validate if the string is in the `ip:port` format.
+    - `from_string(socket_str: str) -> Socket`: Create a `Socket` object from a string.
     - `update_from_string(socket_str: str) -> None`: Update the `Socket` object from a string.
     """
 
     ip: str = "0.0.0.0"
     port: int = 0
 
-    @classmethod
-    def validate_socket_string(cls, socket_str: str) -> tuple[str, int] | None:
+    @staticmethod
+    def validate_socket_string(socket_str: str) -> tuple[str, int] | None:
         """
         Validate if the string is in the `ip:port` format.
 
@@ -86,6 +87,11 @@ class Network:
     #### Attributes:
     - `local_port (int)`: The local port of the network.
     - `public_socket (Socket)`: The public socket of the network.
+
+    #### Methods:
+    - `from_string(local_port: int, public_socket_str: str) -> Network | None`: Create a `Network` object from a string.
+    - `from_network(network: Network) -> Network`: Create a `Network` object from another `Network` object.
+    - `copy() -> Network`: Clone the `Network` object.
     """
 
     local_port: int
@@ -119,7 +125,7 @@ class Network:
         """
         return cls(network.local_port, network.public_socket)
 
-    def clone(self) -> "Network":
+    def copy(self) -> "Network":
         """
         Clone the `Network` object.
 

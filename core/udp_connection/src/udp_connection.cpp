@@ -67,7 +67,7 @@ void UdpPeer::handle_receive(const boost::system::error_code& ec,
     }
 
     int message = recv_buffer_[0];
-    if (validate_message(message, remote_endpoint)) {
+    if (validate_message(message, bytes_recvd, remote_endpoint)) {
         handle_response(message, remote_endpoint);
     }
 
@@ -84,9 +84,10 @@ void UdpPeer::handle_input(const std::string& input) {
     message_ = it->second;
 }
 
-bool UdpPeer::validate_message(const int message,
+bool UdpPeer::validate_message(const int message, const std::size_t bytes_recvd,
                                const udp::endpoint& remote_endpoint) const {
     if (!validate_endpoint(remote_endpoint)) return false;
+    if (!validate_message_size(bytes_recvd)) return false;
 
     return true;
 }
@@ -97,6 +98,15 @@ bool UdpPeer::validate_endpoint(const udp::endpoint& remote_endpoint) const {
                   << remote_endpoint << std::endl;
         return false;
     }
+    return true;
+}
+
+bool UdpPeer::validate_message_size(const std::size_t bytes_recvd) const {
+    if (bytes_recvd != sizeof(int)) {
+        std::cerr << "Received invalid message size." << std::endl;
+        return false;
+    }
+
     return true;
 }
 

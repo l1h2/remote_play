@@ -5,10 +5,23 @@ from .constants import Paths
 
 
 def _get_process_name(name: str) -> str:
+    """
+    Get the process name based on the operating system.
+
+    Args:
+        name (str): The base name of the process.
+
+    Returns:
+        str: The full process name with the appropriate extension for the OS.
+    """
     return name + ".exe" if os.name == "nt" else name
 
 
 class SubprocessNames(Enum):
+    """
+    ### Enum with the subprocess names.
+    """
+
     STUN_CLIENT = _get_process_name("stun_client")
     UDP_CONNECTION = _get_process_name("udp_connection")
     UDP_SERVER = _get_process_name("udp_server")
@@ -16,6 +29,10 @@ class SubprocessNames(Enum):
 
 
 class Subprocess:
+    """
+    ### Subprocess names for the application.
+    """
+
     STUN_CLIENT = os.path.join(Paths.BIN, SubprocessNames.STUN_CLIENT.value)
     UDP_CONNECTION = os.path.join(Paths.BIN, SubprocessNames.UDP_CONNECTION.value)
     UDP_SERVER = os.path.join(Paths.BIN, SubprocessNames.UDP_SERVER.value)
@@ -23,6 +40,13 @@ class Subprocess:
 
 
 class InterprocessMessages(Enum):
+    """
+    ### Enum with the interprocess messages.
+
+    #### Methods:
+    - `get_ack(message: InterprocessMessages) -> InterprocessMessages`: Get the acknowledgment message for a given message.
+    """
+
     STREAM_REQUEST = "stream_request"
     ACK_STREAM_REQUEST = "ack_stream_request"
     STREAM_ACCEPT = "stream_accept"
@@ -32,6 +56,15 @@ class InterprocessMessages(Enum):
 
     @staticmethod
     def get_ack(message: "InterprocessMessages") -> "InterprocessMessages":
+        """
+        Get the acknowledgment message for a given message.
+
+        Args:
+            message (InterprocessMessages): The message to get the acknowledgment for.
+
+        Returns:
+            InterprocessMessages: The acknowledgment message.
+        """
         try:
             return _ACK_MAP[message]
         except KeyError:

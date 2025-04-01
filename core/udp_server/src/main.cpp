@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "common.hpp"
-#include "udp_connection.hpp"
+#include "udp_server.hpp"
 
 int main(int argc, char* argv[]) {
     try {
@@ -23,7 +23,7 @@ int main(int argc, char* argv[]) {
         auto [peer, peer_port] = Common::extract_ip_port(argv[3]);
 
         boost::asio::io_context io_context;
-        UdpPeer udp_peer(io_context, local_port, peer, peer_port);
+        UDPServer server(io_context, local_port, peer, peer_port);
         io_context.run();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;

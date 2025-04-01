@@ -1,7 +1,8 @@
 #include <iostream>
 
 #include "common.hpp"
-#include "udp_connection.hpp"
+#include "input_capture.hpp"
+#include "udp_client.hpp"
 
 int main(int argc, char* argv[]) {
     try {
@@ -23,8 +24,13 @@ int main(int argc, char* argv[]) {
         auto [peer, peer_port] = Common::extract_ip_port(argv[3]);
 
         boost::asio::io_context io_context;
-        UdpPeer udp_peer(io_context, local_port, peer, peer_port);
-        io_context.run();
+        UdpClient client(io_context, local_port, peer, peer_port);
+        InputCapture input_capture(io_context, client);
+
+        std::thread networking_thread([&io_context]() { io_context.run(); });
+        input_capture.run();
+
+        networking_thread.join();
     } catch (std::exception& e) {
         std::cerr << "Exception: " << e.what() << std::endl;
     }

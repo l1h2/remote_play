@@ -1,8 +1,8 @@
-set(EXECUTABLE_NAME udp_connection)
+set(EXECUTABLE_NAME udp_server)
 
 set(SOURCES
     src/main.cpp
-    src/udp_connection.cpp
+    src/udp_server.cpp
 )
 
 add_executable(${EXECUTABLE_NAME} ${SOURCES})

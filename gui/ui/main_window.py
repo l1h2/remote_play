@@ -2,7 +2,7 @@ from PyQt6.QtGui import QCloseEvent
 from PyQt6.QtWidgets import QMainWindow, QVBoxLayout, QWidget
 
 from controllers import NetworkController
-from utils import Defaults
+from utils import get_available_port
 
 from .widgets import NetworkDiscovery, PeerConnection
 
@@ -10,7 +10,7 @@ from .widgets import NetworkDiscovery, PeerConnection
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.local_port = Defaults.LOCAL_PORT
+        self.local_port = get_available_port()
         self._init_controllers()
         self._init_ui()
 

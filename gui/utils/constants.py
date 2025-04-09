@@ -6,7 +6,7 @@ class Defaults:
     ### Default values for the application.
     """
 
-    LOCAL_PORT: int = 321
+    LOCAL_PORT: int = 12345
 
 
 class Paths:

@@ -4,6 +4,10 @@
 #include <string>
 #include <unordered_map>
 
+/**
+ * @namespace StreamMessages
+ * @brief Contains messages used to establish a stream between peers.
+ */
 namespace StreamMessages {
 
 /**

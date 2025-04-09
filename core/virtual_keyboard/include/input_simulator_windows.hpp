@@ -7,6 +7,10 @@
 
 constexpr size_t INPUT_SIZE = sizeof(INPUT);
 
+/**
+ * @class InputSimulatorWindows
+ * @brief Simulates keyboard input on Windows using the SendInput function.
+ */
 class InputSimulatorWindows : public InputSimulator {
    public:
     InputSimulatorWindows();

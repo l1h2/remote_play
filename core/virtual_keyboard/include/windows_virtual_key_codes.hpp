@@ -1,6 +1,9 @@
 #ifndef VIRTUAL_KEY_CODES_H
 #define VIRTUAL_KEY_CODES_H
 
+// Virtual Key Codes for Windows API
+// Codes assigned with the official Microsoft documentation
+
 // Mouse buttons
 #define VK_LBUTTON 0x01   // Left mouse button
 #define VK_RBUTTON 0x02   // Right mouse button

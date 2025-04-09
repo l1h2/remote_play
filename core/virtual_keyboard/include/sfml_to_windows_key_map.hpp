@@ -6,6 +6,12 @@
 
 #include "windows_virtual_key_codes.hpp"
 
+/**
+ * @brief Maps SFML key codes to Windows virtual key codes.
+ *
+ * This map is used to convert SFML key codes to their corresponding Windows
+ * virtual key codes for simulating keyboard input on Windows.
+ */
 inline const std::unordered_map<sf::Keyboard::Key, int>
     SFML_TO_WINDOWS_KEY_MAP = {
         // Alphabet keys

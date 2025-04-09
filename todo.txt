@@ -1,0 +1,21 @@
+
+ - Setup NAT traversal (STUN + UDP hole punching) - DONE
+ - Input capture - DONE
+ - Implement GUI with Qt (PyQt wrapper for easier frontend development) - DONE
+ - Integrate python GUI with C++ networking subprocesses - DONE
+ - Implement control flow logic in python for the GUI - DONE
+ - Emulate keypresses (platform specific code required) - DONE
+
+
+ - Controller integration (platform specific code required) - IN PROGRESS
+
+
+ - Window capture (video) (platform specific code required)
+ - Window capture (audio) (platform specific code required)
+ - Microphone capture
+ - Implement audio mixing (stream + microphone) to reduce packet transmission
+
+ - Implement RTP for streaming
+ - Use VP8 for video encoding
+ - Use Opus for audio encoding
+ - Implement WebRTC on top of RTP (which eliminates need for encoding directly)

@@ -3,6 +3,9 @@
 
 #include <boost/asio.hpp>
 
+#include "common.hpp"
+#include "input_simulator.hpp"
+
 using boost::asio::ip::udp;
 
 /**
@@ -40,10 +43,12 @@ class UDPServer {
     bool validate_message_size(const std::size_t bytes_recvd) const;
     void handle_response(const std::string& message);
     void handle_ping();
+    void handle_input(const InputMessages::Message& message);
 
     udp::socket socket_;
     udp::endpoint client_endpoint_;
     std::array<char, 1024> recv_buffer_;
+    std::unique_ptr<InputSimulator> keyboard_;
 };
 
 #endif  // UDP_SERVER_H

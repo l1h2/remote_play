@@ -8,4 +8,4 @@ set(SOURCES
 add_executable(${EXECUTABLE_NAME} ${SOURCES})
 
 target_include_directories(${EXECUTABLE_NAME} PRIVATE include)
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE common ${SOCKET_LIB})
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE common virtual_keyboard ${SOCKET_LIB})

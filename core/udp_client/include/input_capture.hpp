@@ -5,9 +5,9 @@
 
 #include "udp_client.hpp"
 
-const std::string WINDOW_TITLE = "Keyboard Input Capture";
-const unsigned int WINDOW_WIDTH = 640;
-const unsigned int WINDOW_HEIGHT = 480;
+constexpr const char* WINDOW_TITLE = "Keyboard Input Capture";
+constexpr unsigned int WINDOW_WIDTH = 640;
+constexpr unsigned int WINDOW_HEIGHT = 480;
 
 /**
  * @class InputCapture
@@ -34,11 +34,20 @@ class InputCapture {
     void run();
 
    private:
+    void handle_event(const sf::Event& event);
+    void handle_close();
+    void handle_key_event(const sf::Event& event);
+    void handle_joystick_button_event(const sf::Event& event);
+    void handle_joystick_moved(const sf::Event& event);
+    void handle_joystick_connect_event(const sf::Event& event);
     void stop_client();
 
     boost::asio::io_context& io_context_;
     UdpClient& client_;
     sf::Window window_;
+    std::unordered_map<sf::Event::EventType,
+                       std::function<void(const sf::Event&)>>
+        event_handlers_;
 };
 
 #endif  // INPUT_CAPTURE_HPP

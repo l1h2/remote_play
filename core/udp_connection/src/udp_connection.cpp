@@ -4,6 +4,8 @@
 
 #include "common.hpp"
 
+using namespace StreamMessages;
+
 UdpPeer::UdpPeer(boost::asio::io_context& io_context,
                  const unsigned short local_port, const std::string& peer,
                  const std::string& peer_port)
@@ -144,12 +146,16 @@ void UdpPeer::handle_pong() {
 void UdpPeer::handle_process_signal(int signal,
                                     const udp::endpoint& remote_endpoint) {
     send_message(ACK_MAP.at(signal), remote_endpoint);
-    std::cout << UDP_TO_SIGNAL_MAP.at(signal) << std::endl;
+    std::cout << UDP_TO_SIGNAL_MAP.at(
+                     static_cast<StreamMessages::Messages>(signal))
+              << std::endl;
 }
 
 void UdpPeer::reset_ping(const int signal) {
     message_ = PING;
-    std::cout << UDP_TO_SIGNAL_MAP.at(signal) << std::endl;
+    std::cout << UDP_TO_SIGNAL_MAP.at(
+                     static_cast<StreamMessages::Messages>(signal))
+              << std::endl;
 };
 
 void UdpPeer::send_message(const int message, const udp::endpoint& endpoint) {

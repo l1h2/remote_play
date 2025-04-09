@@ -1,77 +1,10 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
-#include <map>
 #include <string>
 
-/**
- * @enum Messages
- * @brief Enumerates the different types of messages that can be sent between
- * peers.
- */
-enum Messages {
-    PING = 1,
-    PONG = 2,
-    ACK = 3,
-    NACK = 4,
-    STREAM_REQUEST = 5,
-    ACK_STREAM_REQUEST = 6,
-    STREAM_ACCEPT = 7,
-    ACK_STREAM_ACCEPT = 8,
-    STREAM_REJECT = 9,
-    ACK_STREAM_REJECT = 10
-};
-
-/**
- * @brief Maps the different types of messages to their corresponding ACKs.
- */
-const std::map<int, int> ACK_MAP = {
-    {PING, PONG},
-    {STREAM_REQUEST, ACK_STREAM_REQUEST},
-    {STREAM_ACCEPT, ACK_STREAM_ACCEPT},
-    {STREAM_REJECT, ACK_STREAM_REJECT},
-};
-
-/**
- * @namespace InterprocessMessages
- * @brief Contains the different types of messages that can be sent between
- * processes.
- */
-namespace InterprocessMessages {
-
-const std::string STREAM_REQUEST = "stream_request";
-const std::string ACK_STREAM_REQUEST = "ack_stream_request";
-const std::string STREAM_ACCEPT = "stream_accept";
-const std::string ACK_STREAM_ACCEPT = "ack_stream_accept";
-const std::string STREAM_REJECT = "stream_reject";
-const std::string ACK_STREAM_REJECT = "ack_stream_reject";
-
-};  // namespace InterprocessMessages
-
-/**
- * @brief Maps the different types of messages to their corresponding strings.
- */
-const std::map<int, std::string> UDP_TO_SIGNAL_MAP = {
-    {STREAM_REQUEST, InterprocessMessages::STREAM_REQUEST},
-    {ACK_STREAM_REQUEST, InterprocessMessages::ACK_STREAM_REQUEST},
-    {STREAM_ACCEPT, InterprocessMessages::STREAM_ACCEPT},
-    {ACK_STREAM_ACCEPT, InterprocessMessages::ACK_STREAM_ACCEPT},
-    {STREAM_REJECT, InterprocessMessages::STREAM_REJECT},
-    {ACK_STREAM_REJECT, InterprocessMessages::ACK_STREAM_REJECT},
-};
-
-/**
- * @brief Maps the different types of messages to their corresponding UDP
- * signals.
- */
-const std::map<std::string, int> SIGNAL_TO_UDP_MAP = {
-    {InterprocessMessages::STREAM_REQUEST, STREAM_REQUEST},
-    {InterprocessMessages::ACK_STREAM_REQUEST, ACK_STREAM_REQUEST},
-    {InterprocessMessages::STREAM_ACCEPT, STREAM_ACCEPT},
-    {InterprocessMessages::ACK_STREAM_ACCEPT, ACK_STREAM_ACCEPT},
-    {InterprocessMessages::STREAM_REJECT, STREAM_REJECT},
-    {InterprocessMessages::ACK_STREAM_REJECT, ACK_STREAM_REJECT},
-};
+#include "input_messages.hpp"
+#include "stream_messages.hpp"
 
 /**
  * @namespace Common

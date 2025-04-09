@@ -9,6 +9,7 @@ UDPServer::UDPServer(boost::asio::io_context& io_context,
       client_endpoint_(*udp::resolver(io_context)
                             .resolve(udp::v4(), client, client_port)
                             .begin()) {
+    keyboard_ = InputSimulator::create();
     start_receive();
 }
 
@@ -81,6 +82,12 @@ void UDPServer::handle_response(const std::string& message) {
     }
 
     std::cout << "Received: " << message << std::endl;
+    try {
+        const auto input_message = InputMessages::Message::from_string(message);
+        handle_input(input_message);
+    } catch (const std::exception& e) {
+        std::cerr << "Error parsing message: " << e.what() << std::endl;
+    }
 }
 
 void UDPServer::handle_ping() {
@@ -93,4 +100,18 @@ void UDPServer::handle_ping() {
                                             << std::endl;
                               }
                           });
+}
+
+void UDPServer::handle_input(const InputMessages::Message& input_message) {
+    switch (input_message.type) {
+        case InputMessages::KEY_PRESSED:
+            keyboard_->keydown(input_message.id);
+            break;
+        case InputMessages::KEY_RELEASED:
+            keyboard_->keyup(input_message.id);
+            break;
+        default:
+            std::cerr << "Unknown message type: "
+                      << static_cast<int>(input_message.type) << std::endl;
+    }
 }

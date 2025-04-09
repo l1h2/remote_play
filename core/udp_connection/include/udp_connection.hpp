@@ -5,8 +5,8 @@
 
 using boost::asio::ip::udp;
 
-const uint16_t PING_INTERVAL = 1000;  // milliseconds
-const uint8_t TIMEOUT = 30;           // seconds
+constexpr uint16_t PING_INTERVAL = 1000;  // milliseconds
+constexpr uint8_t TIMEOUT = 30;           // seconds
 
 /**
  * @class UdpPeer

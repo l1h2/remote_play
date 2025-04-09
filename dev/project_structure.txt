@@ -1,47 +1,34 @@
 remote_play
+├── core
+│   ├── common
+│   ├── stun_client
+│   ├── udp_client
+│   ├── udp_connection
+│   ├── udp_server
+│   ├── virtual_keyboard
+│   └── CMakeLists.txt
+├── dev
+│   ├── dist
+│   ├── cmake_build
+│   ├── pyinstaller_build
+│   ├── scripts
+│   └── project_structure.txt
 ├── gui
 │   ├── assets
-│   │   ├── images
-│   │   └── icons
-│   ├── components
-│   │   └── widgets.py
-│   ├── main.py
-│   └── utils.py
-├── core
-│   ├── include
-│   │   └── core.hpp
-│   ├── src
-│   │   ├── main.cpp
-│   │   └── other_module.cpp
-│   ├── stun_client
-│   └── CMakeLists.txt
+│   ├── controllers
+│   ├── ui
+│   ├── utils
+│   ├── workers
+│   └── main.py
 ├── python
 │   ├── utils.py
 │   └── other_module.py
-├── dev
-│   ├── dist
-│   │   ├── bin
-│   │   └── lib
-│   ├── cmake_build
-│   │   ├── bin
-│   |   ├── CMakeFiles
-│   │   |── lib
-│   │   ├── cmake_install.cmake
-│   │   ├── CMakeCache.txt
-│   │   └── Makefile
-│   ├── pyinstaller_build
-│   │   ├── build
-│   │   ├── dist
-│   │   └── remote_play.spec
-│   ├── scripts
-│   │   ├── builds
-│   │   ├── package.py
-│   │   └── run.py
-│   └── project_structure.txt
 ├── tests
 │   ├── test_gui.py
 │   ├── test_core.cpp
 │   └── test_python.py
 ├── .gitignore
+├── LICENSE
+├── pyproject.toml
 ├── README.md
-└── LICENSE
+└── requirements.txt
